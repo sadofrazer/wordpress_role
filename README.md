@@ -1,7 +1,7 @@
 Docker Role
 =========
 
-A light role to install docker on a remote host and also install all prerequistes (python-pip and docker-py) necessary to run a concaiter with the docker_container module 
+A light role to install docker on a remote host and also install all prerequistes `python-pip and docker-py` necessary to run a concaiter with the docker_container module 
 
 Requirements
 ------------
@@ -12,8 +12,8 @@ Role Variables
 
 For this role we just have 02 variables which permit us to modify the name of the remote host if necessary:
 
-  - edit_hostname: yes/no (default : yes) #to specify if you also want change the hostname
-  - hostname: the new hostname (default : AnsibleWorker)
+  - `edit_hostname`: yes/no (default : yes) #to specify if you also want change the hostname
+  - `hostname`: the new hostname (default : AnsibleWorker)
 
 Dependencies
 ------------
@@ -39,4 +39,4 @@ NONE
 Author Information
 ------------------
 
-Frazer SADO.
+`Frazer SADO`.
