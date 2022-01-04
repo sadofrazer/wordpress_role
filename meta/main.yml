@@ -1,6 +1,6 @@
 galaxy_info:
   author: Frazer SADO
-  description: docker_role is a role to install docker on Ubuntu or CentOS with the ansible prerequistes to use docker_container module
+  description: wordpress_role is a role to install wordpress on Ubuntu or CentOS with the ansible prerequistes to use docker_container module
   company: ICGROUP
 
   # If the issue tracker for your role is not on github, uncomment the

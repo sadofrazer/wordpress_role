@@ -1,17 +1,17 @@
 ---
 namespace: community
-name: docker_role
+name: wordpress_role
 version: 1.0.0
 readme: README.md
 authors:
   - Frazer SADO
-description: Install docker on remote host
+description: Install Wordpress on remote host
 license_file: NONE
 tags:
   - v1
-repository: https://github.com/sadofrazer/docker_role.git
-documentation: https://github.com/sadofrazer/docker_role.git
-homepage: https://github.com/sadofrazer/docker_role.git
-issues: https://github.com/sadofrazer/docker_rolerole.git
+repository: https://github.com/sadofrazer/wordpress_role.git
+documentation: https://github.com/sadofrazer/wordpress_role.git
+homepage: https://github.com/sadofrazer/wordpress_role.git
+issues: https://github.com/sadofrazer/wordpress_role.git
 build_ignore:
   - .gitignore

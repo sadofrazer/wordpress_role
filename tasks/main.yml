@@ -1,50 +1,38 @@
 ---
-- name: "edit the name of the host"
-  hostname: 
-    name: "{{ hostname }}"
-  when: edit_hostname == yes
+- name: "create docker network"
+  docker_network: 
+    name: "{{ instance_name }}-{{ network_name }}"
 
-- name: Download Install docker script
-  template:
-    src: "install_docker.sh.j2"
-    dest: /home/ubuntu/install_docker.sh
-    tags: template
+- name: "Create a volume"
+  docker_volume:
+    name: "{{ instance_name }}-{{ volume_name }}"
 
-- name: run script to install docker
-  command: "sh /home/ubuntu/install_docker.sh"
-  when: ansible_docker0 is undefined
-
-- name: start service docker
-  service:
-    name: docker
+- name: "run mysql container"
+  docker_container:
+    name: "{{ instance_name }}-{{ mysql_container }}"
+    image: "{{ mysql_image }}"
     state: started
-    enabled: yes
+    restart_policy: always
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ db_root_password }}"
+      MYSQL_DATABASE: "{{ db_name }}"
+      MYSQL_USER: "{{ db_user }}"
+      MYSQL_PASSWORD: "{{ db_password }}"
+    ports:
+      - "{{ mysql_port }}:3306"
+    volumes:
+      - "{{ instance_name }}-{{ volume_name }}:/var/lib/mysql"
+    networks:
+       - name: "{{ instance_name }}-{{ network_name }}"
 
-- name: give the privilège to ubuntu
-  user:
-    name: ubuntu
-    append: yes
-    groups:
-      - docker
-
-- name: install python pip for ubuntu
-  apt:
-    name: python3-pip
-    state: present
-  when: ansible_distribution == "Ubuntu"
-
-- name: download pip script for centos
-  get_url:
-    url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
-    dest: /tmp/get-pip.py
-  When: ansible_distribution == "CentOS"
-
-- name: install python-pip for centos
-  command: python2.7 /tmp/get-pip.py
-  When: ansible_distribution == "CentOS"
-
-- name: install docker-py module
-  pip:
-    name: docker-py
-    state: present
-
+- name: "run wordpress container"
+  docker_container:
+    name: "{{ instance_name }}-{{ wordpress_container }}"
+    image: "{{ wordpress_image }}"
+    state: started
+    restart_policy: always
+    links: "db:{{ instance_name }}-{{ mysql_container }}"
+    ports:
+      - "{{ wp_port }}:80"
+    networks:
+       - name: "{{ instance_name }}-{{ network_name }}"

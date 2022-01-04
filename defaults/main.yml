@@ -1,6 +1,17 @@
 ---
-# defaults file for docker_role
-hostname: AnsibleWorker
+# defaults file for wordpress role
+instance_name: "frazer" #use to prefix all the docker ressources, it can be replace by the company name if you prefer
+mysql_container: "mysql"
+wordpress_container: "wordpress"
+network_name: "wp-network"
+volume_name: "mysql-data"
+wp_port: "8085"
+mysql_port: "3306"
+wordpress_image: wordpress
+mysql_image: mysql
 
-#Edit hostname (yes or no)
-edit_hostname: yes 
+#Applications Data
+db_name: "wp_db"
+db_user: "frazer"
+db_password: "frazer"
+db_root_password: "root"
