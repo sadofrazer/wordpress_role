@@ -1,0 +1,50 @@
+---
+- name: "edit the name of the host"
+  hostname: 
+    name: "{{ hostname }}"
+  when: edit_hostname == yes
+
+- name: Download Install docker script
+  template:
+    src: "install_docker.sh.j2"
+    dest: /home/ubuntu/install_docker.sh
+    tags: template
+
+- name: run script to install docker
+  command: "sh /home/ubuntu/install_docker.sh"
+  when: ansible_docker0 is undefined
+
+- name: start service docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: give the privilège to ubuntu
+  user:
+    name: ubuntu
+    append: yes
+    groups:
+      - docker
+
+- name: install python pip for ubuntu
+  apt:
+    name: python3-pip
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: download pip script for centos
+  get_url:
+    url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+    dest: /tmp/get-pip.py
+  When: ansible_distribution == "CentOS"
+
+- name: install python-pip for centos
+  command: python2.7 /tmp/get-pip.py
+  When: ansible_distribution == "CentOS"
+
+- name: install docker-py module
+  pip:
+    name: docker-py
+    state: present
+

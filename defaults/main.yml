@@ -1,0 +1,6 @@
+---
+# defaults file for docker_role
+hostname: AnsibleWorker
+
+#Edit hostname (yes or no)
+edit_hostname: yes 
