@@ -31,7 +31,7 @@
     image: "{{ wordpress_image }}"
     state: started
     restart_policy: always
-    links: "db:{{ instance_name }}-{{ mysql_container }}"
+    links: "{{ instance_name }}-{{ mysql_container }}:{{ instance_name }}-{{ mysql_container }}"
     ports:
       - "{{ wp_port }}:80"
     networks:
