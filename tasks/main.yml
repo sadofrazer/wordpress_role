@@ -22,8 +22,6 @@
       - "{{ mysql_port }}:3306"
     volumes:
       - "{{ instance_name }}-{{ volume_name }}:/var/lib/mysql"
-    networks:
-       - name: "{{ instance_name }}-{{ network_name }}"
 
 - name: "run wordpress container"
   docker_container:
@@ -31,8 +29,20 @@
     image: "{{ wordpress_image }}"
     state: started
     restart_policy: always
-    links: "{{ instance_name }}-{{ mysql_container }}:{{ instance_name }}-{{ mysql_container }}"
+    env:
+      WORDPRESS_DB_HOST: "{{ instance_name }}-{{ mysql_container }}:3306"
+      WORDPRESS_DB_NAME: "{{ db_name }}"
+      WORDPRESS_DB_USER: "{{ db_user }}"
+      WORDPRESS_DB_PASSWORD: "{{ db_password }}"
+    links: 
+      - "{{ instance_name }}-{{ mysql_container }}:mysql"
     ports:
       - "{{ wp_port }}:80"
-    networks:
-       - name: "{{ instance_name }}-{{ network_name }}"
+
+- name: "link container to this network"
+  docker_network:
+    name: "{{ instance_name }}-{{ network_name }}"
+    connected:
+      - "{{ instance_name }}-{{ mysql_container }}"
+      - "{{ instance_name }}-{{ wordpress_container }}"
+    appends: yes

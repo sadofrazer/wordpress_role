@@ -5,3 +5,4 @@
   remote_user: root
   roles:
     - docker_role
+    - wordpress_role
